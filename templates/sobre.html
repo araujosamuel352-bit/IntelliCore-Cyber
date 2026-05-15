@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+{% extends 'base.html' %}
+{% block title %}Sobre — IntelliCore Cyber{% endblock %}
+
+{% block extra_css %}
+<style>
+  /* ── Header da página ── */
+  .page-header {
+    padding: 80px 48px 60px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .page-header::after {
+    content: 'ABOUT';
+    position: absolute;
+    right: 48px; top: 50%;
+    transform: translateY(-50%);
+    font-family: var(--font-head);
+    font-size: 8rem;
+    font-weight: 900;
+    color: rgba(0,240,255,0.03);
+    letter-spacing: 8px;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .page-tag {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    color: var(--accent);
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .page-tag::before {
+    content: '';
+    width: 32px; height: 1px;
+    background: var(--accent);
+  }
+
+  .page-header h1 {
+    font-family: var(--font-head);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: 2px;
+    max-width: 600px;
+    line-height: 1.15;
+  }
+
+  .page-header h1 span { color: var(--accent); }
+
+  /* ── Missão ── */
+  .mission {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .mission-text {
+    padding: 80px 48px;
+    border-right: 1px solid var(--border);
+  }
+
+  .mission-text h2 {
+    font-family: var(--font-head);
+    font-size: 1.4rem;
+    color: #fff;
+    letter-spacing: 2px;
+    margin-bottom: 24px;
+  }
+
+  .mission-text p {
+    font-size: 0.95rem;
+    line-height: 1.9;
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+
+  .mission-values {
+    padding: 80px 48px;
+  }
+
+  .mission-values h2 {
+    font-family: var(--font-head);
+    font-size: 1.4rem;
+    color: #fff;
+    letter-spacing: 2px;
+    margin-bottom: 32px;
+  }
+
+  .value-item {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    margin-bottom: 28px;
+  }
+
+  .value-icon {
+    width: 40px; height: 40px;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+    font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+
+  .value-item h4 {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: #fff;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+
+  .value-item p {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+
+  /* ── Timeline ── */
+  .timeline-section {
+    padding: 80px 48px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-title {
+    font-family: var(--font-head);
+    font-size: 0.72rem;
+    letter-spacing: 4px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .section-heading {
+    font-family: var(--font-head);
+    font-size: clamp(1.4rem, 2.5vw, 2rem);
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 52px;
+    line-height: 1.2;
+  }
+
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 700px;
+  }
+
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 100px 1px 1fr;
+    gap: 24px;
+    align-items: start;
+    padding-bottom: 40px;
+  }
+
+  .timeline-item:last-child { padding-bottom: 0; }
+
+  .timeline-year {
+    font-family: var(--font-head);
+    font-size: 1.1rem;
+    color: var(--accent);
+    font-weight: 700;
+    text-align: right;
+    padding-top: 2px;
+  }
+
+  .timeline-line {
+    position: relative;
+    background: var(--border);
+  }
+
+  .timeline-line::before {
+    content: '';
+    position: absolute;
+    top: 6px; left: 50%;
+    transform: translateX(-50%);
+    width: 8px; height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--accent);
+  }
+
+  .timeline-content h4 {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: #fff;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+
+  .timeline-content p {
+    font-size: 0.88rem;
+    color: var(--text-dim);
+    line-height: 1.7;
+  }
+
+  /* ── Equipe ── */
+  .team-section {
+    padding: 80px 48px;
+  }
+
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+    margin-top: 52px;
+  }
+
+  .team-card {
+    border: 1px solid var(--border);
+    background: var(--bg2);
+    padding: 32px 24px;
+    text-align: center;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+
+  .team-card:hover {
+    border-color: rgba(0,240,255,0.35);
+    transform: translateY(-4px);
+  }
+
+  .team-avatar {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-head);
+    font-size: 1.4rem;
+    color: var(--accent);
+    margin: 0 auto 20px;
+    background: rgba(0,240,255,0.05);
+  }
+
+  .team-card h4 {
+    font-family: var(--font-head);
+    font-size: 0.85rem;
+    color: #fff;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+
+  .team-card span {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 1px;
+  }
+
+  .team-card p {
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    line-height: 1.6;
+    margin-top: 12px;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- Header -->
+<div class="page-header">
+  <div class="page-tag">Sobre nós</div>
+  <h1>Construídos para <span>defender</span><br>quem constrói.</h1>
+</div>
+
+<!-- Missão + Valores -->
+<div class="mission">
+  <div class="mission-text">
+    <h2>Nossa Missão</h2>
+    <p>
+      A IntelliCore Cyber nasceu da convicção de que segurança digital não deve ser um privilégio
+      de grandes corporações. Desenvolvemos o CoreScan AI para tornar a proteção de código
+      acessível, rápida e inteligente para qualquer desenvolvedor ou empresa.
+    </p>
+    <p>
+      Combinamos modelos de inteligência artificial de última geração com anos de experiência
+      em cibersegurança ofensiva e defensiva para entregar um produto que realmente funciona
+      no mundo real.
+    </p>
+  </div>
+
+  <div class="mission-values">
+    <h2>Nossos Valores</h2>
+
+    <div class="value-item">
+      <div class="value-icon"><i class="fa-solid fa-eye"></i></div>
+      <div>
+        <h4>Transparência</h4>
+        <p>Cada risco encontrado é explicado de forma clara. Sem jargões, sem alarmes falsos.</p>
+      </div>
+    </div>
+
+    <div class="value-item">
+      <div class="value-icon"><i class="fa-solid fa-rocket"></i></div>
+      <div>
+        <h4>Velocidade</h4>
+        <p>Segurança que atrasa o desenvolvimento não é segurança, é obstáculo. Somos rápidos.</p>
+      </div>
+    </div>
+
+    <div class="value-item">
+      <div class="value-icon"><i class="fa-solid fa-lock"></i></div>
+      <div>
+        <h4>Confiança</h4>
+        <p>Seu código nunca é armazenado. Privacidade total em cada scan realizado.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Equipe -->
+<section class="team-section">
+  <p class="section-title">    O time</p>
+  <h2 class="section-heading">Quem está por trás do CoreScan AI</h2>
+
+  <div class="team-grid">
+    <div class="team-card">
+      <div class="team-avatar">S</div>
+      <h4>Samuel Araujo</h4>
+      <span>Fundador</span>
+      <p>Segurança-Ofensiva. Pesquisador de vulnerabilidades. Haking-Etico</p>
+    </div>
+
+    <div class="team-card">
+      <div class="team-avatar">M</div>
+      <h4>Matheus Sant´ana</h4>
+      <span>CEO e Co-fundador</span>
+      <p>Gestão criativa e estratégica, unindo liderança, inovação e organização para desenvolver soluções modernas e eficientes.</p>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

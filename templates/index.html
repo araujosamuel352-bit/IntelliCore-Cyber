@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+</head>
+{% extends 'base.html' %}
+{% block title %}IntelliCore Cyber — CoreScan AI{% endblock %}
+
+{% block extra_css %}
+<style>
+  /* ── Hero ── */
+  .hero {
+    min-height: 92vh;
+    display: flex;
+    align-items: center;
+    padding: 0 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(0,240,255,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -100px; left: 30%;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(0,87,255,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-content {
+    max-width: 680px;
+    z-index: 1;
+  }
+
+  .hero-tag {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    color: var(--accent);
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+
+  .hero-tag::before {
+    content: '';
+    display: inline-block;
+    width: 32px; height: 1px;
+    background: var(--accent);
+  }
+
+  .hero h1 {
+    font-family: var(--font-head);
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 900;
+    line-height: 1.1;
+    color: #fff;
+    letter-spacing: 2px;
+    margin-bottom: 24px;
+  }
+
+  .hero h1 span {
+    color: var(--accent);
+    text-shadow: 0 0 30px rgba(0,240,255,0.4);
+  }
+
+  .hero p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--text);
+    margin-bottom: 40px;
+    max-width: 540px;
+  }
+
+  .hero-btns {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 14px 32px;
+    background: var(--accent);
+    color: var(--bg);
+    text-decoration: none;
+    font-weight: bold;
+    clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+    transition: all 0.2s;
+  }
+
+  .btn-primary:hover {
+    background: #fff;
+    box-shadow: 0 0 24px rgba(0,240,255,0.5);
+  }
+
+  .btn-outline {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 14px 32px;
+    border: 1px solid var(--border);
+    color: var(--text);
+    text-decoration: none;
+    clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+    transition: all 0.2s;
+  }
+
+  .btn-outline:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* ── Stats ── */
+  .stats {
+    display: flex;
+    gap: 48px;
+    padding: 32px 48px;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: rgba(0,240,255,0.02);
+  }
+
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .stat-number {
+    font-family: var(--font-head);
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--accent);
+  }
+
+  .stat-label {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 2px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+
+  /* ── Features ── */
+  .features {
+    padding: 100px 48px;
+  }
+
+  .section-title {
+    font-family: var(--font-head);
+    font-size: 0.72rem;
+    letter-spacing: 4px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .section-heading {
+    font-family: var(--font-head);
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 60px;
+    max-width: 500px;
+    line-height: 1.2;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  .feature-card {
+    padding: 32px;
+    border: 1px solid var(--border);
+    background: var(--bg2);
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+
+  .feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    transform: scaleX(0);
+    transition: transform 0.4s;
+  }
+
+  .feature-card:hover {
+    border-color: rgba(0,240,255,0.35);
+    transform: translateY(-4px);
+  }
+
+  .feature-card:hover::before {
+    transform: scaleX(1);
+  }
+
+  .feature-icon {
+    font-size: 1.6rem;
+    color: var(--accent);
+    margin-bottom: 20px;
+  }
+
+  .feature-card h3 {
+    font-family: var(--font-head);
+    font-size: 0.95rem;
+    color: #fff;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+  }
+
+  .feature-card p {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--text-dim);
+  }
+
+  /* ── CTA ── */
+  .cta-section {
+    margin: 0 48px 100px;
+    padding: 60px 48px;
+    border: 1px solid var(--border);
+    background: linear-gradient(135deg, rgba(0,240,255,0.04), rgba(0,87,255,0.04));
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .cta-section h2 {
+    font-family: var(--font-head);
+    font-size: 1.6rem;
+    color: #fff;
+    letter-spacing: 2px;
+  }
+
+  .cta-section h2 span { color: var(--accent); }
+
+  .cta-section p {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    margin-top: 8px;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-tag">Segurança Inteligente</div>
+    <h1>Escaneie.<br>Detecte.<br><span>Neutralize.</span></h1>
+    <p>
+      O <strong>CoreScan AI</strong> usa inteligência artificial para escanear o código
+      do seu site em segundos, identificando vulnerabilidades antes que alguém as explore.
+    </p>
+    <div class="hero-btns">
+      <a href="/demo" class="btn-primary">Ver Demo</a>
+      <a href="/produto" class="btn-outline">Conhecer o Produto</a>
+    </div>
+  </div>
+</section>
+
+<!-- Stats -->
+<div class="stats">
+  <div class="stat-item">
+    <span class="stat-number">99.8%</span>
+    <span class="stat-label">Taxa de detecção</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-number">&lt; 3s</span>
+    <span class="stat-label">Tempo Medio de scan</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-number">500+</span>
+    <span class="stat-label">Vulnerabilidades mapeadas</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-number">24/7</span>
+    <span class="stat-label">Monitoramento ativo</span>
+  </div>
+</div>
+
+<!-- Features -->
+<section class="features">
+  <p class="section-title">   Por que CoreScan AI</p>
+  <h2 class="section-heading">Tecnologia que protege em tempo real</h2>
+
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon"><i class="fa-solid fa-brain"></i></div>
+      <h3>IA Integrada</h3>
+      <p>Modelo de linguagem treinado em milhares de padrões de ataque para identificar ameaças com precisão cirúrgica.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><i class="fa-solid fa-bolt"></i></div>
+      <h3>Scan Ultrarrápido</h3>
+      <p>Analisa arquivos, rotas e dependências do seu projeto numa media de 3 segundos, sem travar seu fluxo de trabalho.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><i class="fa-solid fa-shield-halved"></i></div>
+      <h3>Relatório Detalhado</h3>
+      <p>Cada vulnerabilidade encontrada vem com descrição, nível de risco e sugestão de correção gerada pela IA.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><i class="fa-solid fa-plug"></i></div>
+      <h3>Fácil Integração</h3>
+      <p>Compatível com qualquer linguagem ou framework. Integrada via API ou use direto na plataforma web.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+  <div>
+    <h2>Pronto para proteger seu <span>código</span>?</h2>
+    <p>Fale com nosso time e descubra como o CoreScan AI pode blindar seu projeto.</p>
+  </div>
+  <a href="/contato" class="btn-primary">Entrar em Contato</a>
+</div>
+
+{% endblock %}
